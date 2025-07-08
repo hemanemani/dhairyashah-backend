@@ -10,7 +10,7 @@ import adminRoutes from "./routes/api/admin/login";
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "https://www.shahdhairya.in",
   credentials: true
 }));
 
