@@ -5,7 +5,7 @@ import { authMiddleware } from "../../../middleware/auth";
 
 const router = express.Router();
 
-router.post("/",authMiddleware,async(req:Request,res:Response)=>{
+router.post("/",async(req:Request,res:Response)=>{
     const {name,email,subject,message} = req.body
     try {
     await pool.query("INSERT INTO messages (name, email,subject,message) VALUES ($1, $2, $3, $4)",

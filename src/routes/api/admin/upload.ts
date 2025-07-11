@@ -26,7 +26,7 @@ router.post(
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    const fileUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+    const fileUrl = `https://api.shahdhairya.in/uploads/${req.file.filename}`;
     res.json({ url: fileUrl });
   }) as express.Handler // force the handler to match Express expectations
 );
