@@ -1,5 +1,5 @@
 
-import express from "express";
+import express, { Request,Response,NextFunction } from "express";
 import cors from "cors";
 import profileRoutes from "./routes/api/admin/profile";
 import uploadRoutes from "./routes/api/admin/upload";
@@ -14,18 +14,40 @@ const allowedOrigins = [
   'https://www.shahdhairya.in'
 ];
 
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const origin = req.headers.origin;
+
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    res.sendStatus(200);
+    return;
+  }
+
+  next();
+});
+
+// cors package (still helps for normal requests)
 app.use(cors({
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true,
+  credentials: true
 }));
 
 app.use(express.json());
+
 
 app.use("/api/admin/login",adminRoutes)
 app.use("/api/admin/profile",profileRoutes) 
