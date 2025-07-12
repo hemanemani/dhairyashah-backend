@@ -9,10 +9,22 @@ import adminRoutes from "./routes/api/admin/login";
 
 const app = express();
 
+const allowedOrigins = [
+  'https://shahdhairya.in',
+  'https://www.shahdhairya.in'
+];
+
 app.use(cors({
-  origin: "https://www.shahdhairya.in",
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 }));
+
 
 app.use(express.json());
 
