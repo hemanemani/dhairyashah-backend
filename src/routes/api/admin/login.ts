@@ -15,10 +15,15 @@ const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
 router.post("/",async(req,res): Promise<void>=>{
 
     const {email,password} = req.body;
+        console.log("Login req body:", req.body);
+
     try {
 
         const result = await pool.query(`SELECT * from admins WHERE email = $1`,[email]);
         const user = result.rows[0];
+
+            console.log("Found user:", user);
+
 
         if (!user) {
              res.status(401).json({ message: "Invalid email or password" });
