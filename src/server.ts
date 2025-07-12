@@ -15,26 +15,6 @@ const allowedOrigins = [
 ];
 
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const origin = req.headers.origin;
-
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-
-  if (req.method === "OPTIONS") {
-    res.sendStatus(200);
-    return;
-  }
-
-  next();
-});
-
-// cors package (still helps for normal requests)
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -45,6 +25,12 @@ app.use(cors({
   },
   credentials: true
 }));
+
+// ✅ Handle preflight OPTIONS manually (optional but safe)
+app.options("*", (req, res) => {
+  res.sendStatus(200);
+});
+
 
 app.use(express.json());
 
