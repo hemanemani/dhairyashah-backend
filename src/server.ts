@@ -1,5 +1,5 @@
 
-import express, { Request,Response,NextFunction } from "express";
+import express from "express";
 import cors from "cors";
 import profileRoutes from "./routes/api/admin/profile";
 import uploadRoutes from "./routes/api/admin/upload";
@@ -11,7 +11,7 @@ const app = express();
 
 const allowedOrigins = [
   'https://shahdhairya.in',
-  'https://www.shahdhairya.in'
+  'https://www.shahdhairya.in/'
 ];
 
 
