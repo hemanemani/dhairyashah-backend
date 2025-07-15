@@ -1,23 +1,34 @@
 import express from "express";
 import multer from "multer";
-import path from "path";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (_req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.originalname);
-    cb(null, file.fieldname + "-" + uniqueSuffix + ext);
+// Cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Cloudinary storage with correct `params` typing
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: async (_req, _file) => {
+    return {
+      folder: "uploads",
+      allowed_formats: ["jpg", "png", "jpeg", "webp"],
+    };
   },
 });
 
 const upload = multer({ storage });
 
-// use express.Handler to let Express handle the return type
+// Upload route
 router.post(
   "/",
   upload.single("file"),
@@ -26,11 +37,9 @@ router.post(
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    const fileUrl = `https://api.shahdhairya.in/uploads/${req.file.filename}`;
-
+    const fileUrl = (req.file).path;
     res.json({ url: fileUrl });
-  }) as express.Handler // force the handler to match Express expectations
+  }) as express.Handler
 );
-
 
 export default router;
