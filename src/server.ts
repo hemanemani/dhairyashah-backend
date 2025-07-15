@@ -10,24 +10,28 @@ import statementRoutes from "./routes/api/admin/statements";
 
 const app = express();
 
-const allowedOrigins = [
-  'https://shahdhairya.in',
-  'https://www.shahdhairya.in',
-  'http://localhost:3000', // optional for local dev
-  'http://127.0.0.1:3000'  // optional for local dev
-];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      console.log("Incoming Origin:", origin);
+      const allowedOrigins = [
+        'https://shahdhairya.in',
+        'https://www.shahdhairya.in',
+        'http://localhost:3000',
+        'http://127.0.0.1:3000'
+      ];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.error("Blocked by CORS:", origin);
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
-}));
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.error("Blocked by CORS:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
 
 app.use(express.json());
 
