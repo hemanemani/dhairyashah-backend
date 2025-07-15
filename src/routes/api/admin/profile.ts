@@ -8,6 +8,57 @@ const router = express.Router();
 router.get("/" ,async (req:Request, res:Response):Promise<void> => {
   try {
     const result = await pool.query(`SELECT * FROM site_settings WHERE id = 1`);
+    if (result.rows.length === 0) {
+      res.json({ 
+        heading: "", 
+        description: "", 
+        designation:"",
+        home_img_url: "",
+        about_heading:"",
+        about_desc:"",
+        about_sub_one_heading : "",
+        about_sub_one_desc:"",
+        about_sub_second_heading:"",
+        about_sub_second_desc:"",
+        about_sub_third_heading:"",
+        about_sub_third_desc:"",
+        about_img_url:"",
+        project_heading:"",
+        project_desc:"",
+        project_sub_one_heading:"",
+        project_sub_one_desc:"",
+        project_sub_one_img_url:"",
+        project_sub_second_heading :"",
+        project_sub_second_desc:"",
+        project_sub_second_img_url:"",
+        insights_heading:"",
+        insights_desc: "", 
+        insights_sub_one_heading: "", 
+        insights_sub_one_desc:"",
+        insights_sub_one_img_url: "",
+        insights_sub_second_heading:"",
+        insights_sub_second_desc:"",
+        insights_sub_second_img_url : "",
+        insights_sub_third_heading:"",
+        insights_sub_third_desc:"",
+        insights_sub_third_img_url:"",
+        statement_heading:"",
+        statement_description:"",
+        statement_testimonial:[],
+        contact_heading:"",
+        contact_description:"",
+        contact_sub_heading:"",
+        contact_sub_description:"",
+        email:"",
+        instagram:"",
+        facebook:"",
+        linkedin:"",
+        meta_title:"",
+        meta_keywords:"",
+        meta_description:"",
+      });
+    } else {
+      
       const data = result.rows[0];
       const parsedTestimonials = typeof data.statement_testimonial === 'string'
       ? JSON.parse(data.statement_testimonial)
@@ -17,6 +68,7 @@ router.get("/" ,async (req:Request, res:Response):Promise<void> => {
         ...data,
         statement_testimonial: parsedTestimonials || []
       });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
