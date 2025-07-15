@@ -42,9 +42,6 @@ router.get("/" ,async (req:Request, res:Response):Promise<void> => {
         insights_sub_third_heading:"",
         insights_sub_third_desc:"",
         insights_sub_third_img_url:"",
-        statement_heading:"",
-        statement_description:"",
-        statement_testimonial:[],
         contact_heading:"",
         contact_description:"",
         contact_sub_heading:"",
@@ -60,13 +57,8 @@ router.get("/" ,async (req:Request, res:Response):Promise<void> => {
     } else {
       
       const data = result.rows[0];
-      const parsedTestimonials = typeof data.statement_testimonial === 'string'
-      ? JSON.parse(data.statement_testimonial)
-      : data.statement_testimonial;
-
       res.json({
         ...data,
-        statement_testimonial: parsedTestimonials || []
       });
     }
   } catch (err) {
@@ -90,7 +82,7 @@ router.put("/", authMiddleware, async (req: Request, res: Response) => {
     insights_sub_one_heading, insights_sub_one_desc, insights_sub_one_img_url,
     insights_sub_second_heading, insights_sub_second_desc, insights_sub_second_img_url,
     insights_sub_third_heading, insights_sub_third_desc, insights_sub_third_img_url,
-    contact_heading, contact_description,contact_sub_heading,contact_sub_description,statement_heading,statement_description,statement_testimonial,email,
+    contact_heading, contact_description,contact_sub_heading,contact_sub_description,email,
     instagram, facebook, linkedin,
     meta_title, meta_keywords, meta_description
   } = req.body;
@@ -134,16 +126,13 @@ router.put("/", authMiddleware, async (req: Request, res: Response) => {
         contact_description = $34,
         contact_sub_heading=$35,
         contact_sub_description=$36,
-        statement_heading = $37,
-        statement_description = $38,
-        statement_testimonial = $39,
-        instagram = $40,
-        facebook = $41,
-        linkedin = $42,
-        meta_title = $43,
-        meta_keywords = $44,
-        meta_description = $45,
-        email = $46,
+        instagram = $37,
+        facebook = $38,
+        linkedin = $39,
+        meta_title = $40,
+        meta_keywords = $41,
+        meta_description = $42,
+        email = $43,
         updated_at = NOW()
       WHERE id = 1
       RETURNING *;
@@ -161,7 +150,7 @@ router.put("/", authMiddleware, async (req: Request, res: Response) => {
       insights_sub_one_heading, insights_sub_one_desc, insights_sub_one_img_url,
       insights_sub_second_heading, insights_sub_second_desc, insights_sub_second_img_url,
       insights_sub_third_heading, insights_sub_third_desc, insights_sub_third_img_url,
-      contact_heading, contact_description,contact_sub_heading,contact_sub_description,statement_heading,statement_description,statement_testimonial,
+      contact_heading, contact_description,contact_sub_heading,contact_sub_description,
       instagram, facebook, linkedin,
       meta_title, meta_keywords, meta_description,email
     ]);

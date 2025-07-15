@@ -26,7 +26,6 @@ router.post(
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    // const fileUrl = `https://api.shahdhairya.in/uploads/${req.file.filename}`;
     const fileUrl = `https://api.shahdhairya.in/uploads/${req.file.filename}`;
 
     res.json({ url: fileUrl });

@@ -5,6 +5,7 @@ import profileRoutes from "./routes/api/admin/profile";
 import uploadRoutes from "./routes/api/admin/upload";
 import messageRoutes from "./routes/api/admin/message";
 import adminRoutes from "./routes/api/admin/login";
+import statementRoutes from "./routes/api/admin/statements";
 
 
 const app = express();
@@ -37,6 +38,7 @@ app.use(express.json());
 
 app.use("/api/admin/login",adminRoutes)
 app.use("/api/admin/profile",profileRoutes) 
+app.use("/api/admin/statements",statementRoutes) 
 app.use("/uploads", express.static("uploads"));
 app.use("/api/admin/upload",uploadRoutes);
 app.use("/api/admin/message",messageRoutes);
