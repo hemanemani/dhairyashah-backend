@@ -9,16 +9,16 @@ import adminRoutes from "./routes/api/admin/login";
 
 const app = express();
 
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://127.0.0.1:3000'
-];
-
-
 // const allowedOrigins = [
-//   'https://shahdhairya.in',
-//   'https://www.shahdhairya.in/'
+//   'http://localhost:3000',
+//   'http://127.0.0.1:3000'
 // ];
+
+
+const allowedOrigins = [
+  'https://shahdhairya.in',
+  'https://www.shahdhairya.in/'
+];
 
 
 app.use(cors({
