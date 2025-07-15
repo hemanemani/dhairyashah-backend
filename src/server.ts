@@ -13,7 +13,6 @@ const app = express();
 app.use(
   cors({
     origin: (origin, callback) => {
-      console.log("Incoming Origin:", origin);
       const allowedOrigins = [
         'https://shahdhairya.in',
         'https://www.shahdhairya.in',
